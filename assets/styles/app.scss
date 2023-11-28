@@ -1,0 +1,16 @@
+
+$primary: #FA95E4;
+$secondary : white;
+$typographies: cursive;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary
+);
+  
+.homeNav{
+  background-color: $primary;
+  font-family : $typographies ;
+}
+
+@import "~bootstrap/scss/bootstrap";

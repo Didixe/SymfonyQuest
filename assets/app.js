@@ -7,7 +7,7 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
-import logoPath from './images/citrouille.png';
-let html = `<img src="${logoPath}" alt="citrouille">`;
+import logoPath from './images/fond.jpg';
+let html = `<img src="${logoPath}" alt="fond">`;
 
 console.log('Hello Webpack Encore !')

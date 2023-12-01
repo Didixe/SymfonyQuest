@@ -29,15 +29,8 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             }
         }
 
-//        $season = new Season();
-//        $season->setNumber(1);
-//        $season->setYear(2022);
-//        $season->setDescription("saison 1");
-//        $season->setProgram($this->getReference('program_Arcane'));
-
         $manager->flush();
 
-//        $this->addReference('season1_Arcane', $season);
     }
 
     public function getDependencies(): array

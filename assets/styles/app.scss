@@ -1,16 +1,25 @@
-
-$primary: #FA95E4;
+//$primary: #FA95E4;
+//$primary: #FF005C;
+$primary: #826CFD;
 $secondary : white;
 $typographies: cursive;
+$color: white;
 
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary
 );
-  
+
+
+body{
+  background-image: url('../images/fond.jpg');
+  background-size: cover;
+}
+
 .homeNav{
   background-color: $primary;
   font-family : $typographies ;
+  color : $color;
 }
 
 @import "~bootstrap/scss/bootstrap";

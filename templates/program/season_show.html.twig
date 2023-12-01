@@ -14,8 +14,9 @@
             <ul>
                 {% for episode in season.episodes %}
                     <li>
-                        <h2>Episode : {{ episode.number }}/ {{ episode.title }}</h2>
+                        <h2><a href="{{ path('program_episode_show', {'program': program.id,'season': season.id, 'episode': episode.id}) }}">Episode : {{ episode.number }}/ {{ episode.title }}</a></h2>
                         <p>{{ episode.synopsis }}</p>
+
                     </li>
                 {% endfor %}
             </ul>

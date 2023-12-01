@@ -3,11 +3,11 @@
 {% block title %}All categories{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries de la table catégorie : </h1>
+    <h1>Les catégories : </h1>
     {% for category in categories %}
         <div>
-            <h2> Catégorie : {{ category.name }}</h2>
-            <a href="{{ path("category_show", { categoryName: category.name }) }}">Voir la fiche</a>
+{#            <h2> Catégorie : {{ category.name }}</h2>#}
+            <a href="{{ path("category_show", { categoryName: category.name }) }}">{{ category.name }}</a>
         </div>
     {% else %}
         Aucune Catégorie trouvée.

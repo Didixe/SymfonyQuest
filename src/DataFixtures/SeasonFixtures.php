@@ -7,19 +7,37 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
+use Faker\Factory;
+
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $season = new Season();
-        $season->setNumber(1);
-        $season->setYear(2022);
-        $season->setDescription("saison 1");
-        $season->setProgram($this->getReference('program_Arcane'));
-        $manager->persist($season);
+        $faker=Factory::create();
+
+        for ($programNumber = 0; $programNumber < 5; $programNumber++) {
+            for ($seasonNumber = 1; $seasonNumber <= 5; $seasonNumber++) {
+                $season = new Season();
+                $season->setNumber($seasonNumber);
+                $season->setYear($faker->year());
+                $season->setDescription($faker->paragraphs(3, true));
+
+                $season->setProgram($this->getReference('program_' . $programNumber ));
+
+                $this->addReference('program_' . $programNumber . 'season_' . $seasonNumber, $season);
+                $manager->persist($season);
+            }
+        }
+
+//        $season = new Season();
+//        $season->setNumber(1);
+//        $season->setYear(2022);
+//        $season->setDescription("saison 1");
+//        $season->setProgram($this->getReference('program_Arcane'));
+
         $manager->flush();
 
-        $this->addReference('season1_Arcane', $season);
+//        $this->addReference('season1_Arcane', $season);
     }
 
     public function getDependencies(): array

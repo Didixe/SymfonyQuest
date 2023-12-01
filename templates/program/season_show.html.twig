@@ -5,7 +5,8 @@
 {% block body %}
     <div class="media-body">
         <h1 class="mt-0"> Saison {{ season.number }} de {{ program.title }}</h1>
-        <p>{{ season.description }} de {{ program.title }}, est constituée de {{ season.episodes|length }} épisodes. </p>
+        <p>{{ program.title }}, est constituée de {{ season.episodes|length }} épisodes. </p>
+        <p>{{ season.description }}</p>
         <p>Année de sortie : {{ season.year }}</p>
 
         {% if season.episodes|length > 0 %}

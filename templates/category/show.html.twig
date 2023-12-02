@@ -3,22 +3,28 @@
 {% block title %}Catégorie {{ category.name }}{% endblock %}
 
 {% block body %}
-    <h1>{{ category.name }}</h1>
+    <div class="page zoom">
+        <div class="media">
+            <h1><a class="zoomLink" href="{{ path('category_index') }}">{{ category.name }}</a></h1>
 
-    {% if programs is not empty %}
-        <h2>Séries associées :</h2>
-        <ul>
-            {% for program in programs %}
-                <li>{{ program.id }} : {{ program.title }}</li>
-                <p>{{ program.synopsis }}</p>
-                <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucune série associée à cette catégorie.</p>
-    {% endif %}
+            {% if programs is not empty %}
+            <div class="margeLi">
+                    <h2>Séries associées :</h2>
+                    <ul>
+                        {% for program in programs %}
+                            <li><a class="zoomLink" href="{{ path("program_show", { id: program.id }) }}"> {{ program.title }} </a></li>
+                            <p>{{ program.synopsis }}</p>
+        {#                    <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>#}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucune série associée à cette catégorie.</p>
+                {% endif %}
+            </div>
 
-    <a href="{{ path('category_index') }}">
-        Retour à la liste des catégories
-    </a>
+            <a href="{{ path('category_index') }}">
+                Retour à la liste des catégories
+            </a>
+        </div>
+    </div>
 {% endblock %}

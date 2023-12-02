@@ -12,8 +12,16 @@
 
 {% block title %}Wild Series{% endblock %}
 
+{% block bodyClass %}class="index-page"{% endblock %}
+
 {% block body %}
-<h1>{{ message }}</h1>
+    <div class="page de connection">
+        <h2 class="titreFormulaire">S'identifier</h2>
+        <div class="form">
+        {{ form(formulaire) }}
+        </div>
+    </div>
+
 
 {#<img src="{{ asset('build/images/fond.jpg') }}" alt="fond">#}
 {# <img src="{{ asset('build/images/subdir/fond.jpg') }}" alt="fond"> #}

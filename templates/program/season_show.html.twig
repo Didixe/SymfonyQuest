@@ -3,29 +3,36 @@
 {% block title %}Saison #{{ season.number }}{% endblock %}
 
 {% block body %}
-    <div class="media-body">
-        <h1 class="mt-0"> Saison {{ season.number }} de {{ program.title }}</h1>
-        <p>{{ program.title }}, est constituée de {{ season.episodes|length }} épisodes. </p>
-        <p>{{ season.description }}</p>
-        <p>Année de sortie : {{ season.year }}</p>
+    <div class="page zoom">
+        <div class="media">
+            <div class="media-body">
+                <h1 class="mt-0"> <a class="zoomLink" href="{{ path("program_show", { id: program.id }) }}"> Saison {{ season.number }}</a> de {{ program.title }}</h1>
+                <p>{{ program.title }}, est constituée de {{ season.episodes|length }} épisodes. </p>
+                <p>{{ season.description }}</p>
+                <p>Année de sortie : {{ season.year }}</p>
 
-        {% if season.episodes|length > 0 %}
-            <h2>Liste des épisodes :</h2>
-            <ul>
-                {% for episode in season.episodes %}
-                    <li>
-                        <h2><a href="{{ path('program_episode_show', {'program': program.id,'season': season.id, 'episode': episode.id}) }}">Episode : {{ episode.number }}/ {{ episode.title }}</a></h2>
-                        <p>{{ episode.synopsis }}</p>
+                {% if season.episodes|length > 0 %}
+                    <div class="size box zoom">
+                        <h2>Liste des épisodes :</h2>
+                        <ul>
+                            {% for episode in season.episodes %}
+                                <li class="margeLi">
+                                    <h2><a class="zoomLink" href="{{ path('program_episode_show', {'program': program.id,'season': season.id, 'episode': episode.id}) }}">Episode : {{ episode.number }}/ {{ episode.title }}</a></h2>
+                                    <p>{{ episode.synopsis }}</p>
 
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Aucun épisode disponible pour cette saison.</p>
-        {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    <p>Aucun épisode disponible pour cette saison.</p>
+                {% endif %}
+            </div>
+
+
+            <a href="{{ path('program_show', {'id': program.id}) }}">
+                Retour à la page de la série
+            </a>
+        </div>
     </div>
-
-    <a href="{{ path('program_show', {'id': program.id}) }}">
-        Retour à la page de la série
-    </a>
 {% endblock %}

@@ -1,25 +1,105 @@
 //$primary: #FA95E4;
-//$primary: #FF005C;
 $primary: #826CFD;
-$secondary : white;
+$secondary : #FF005C;
 $typographies: cursive;
-$color: white;
+$textPrimary : white ;
 
 $theme-colors: (
   "primary": $primary,
-  "secondary": $secondary
+  "secondary": $secondary,
+  "text-primary": $textPrimary,
 );
 
+body {
+    &.index-page {
+      background-image: url('../images/fond.jpg');
+      background-size: 100%;
+    }
 
-body{
-  background-image: url('../images/fond.jpg');
-  background-size: cover;
+    //&.other-pages {
+    //  background-position: center;
+    //  background-size: 250%;
+    //}
+
+    background-image: url('../images/mur.jpg');
+    --bs-body-color: white;
 }
 
 .homeNav{
   background-color: $primary;
   font-family : $typographies ;
-  color : $color;
+  //color : $color;
+}
+
+.navbar-expand-lg .navbar-collapse {
+  display: flex!important;
+  flex-basis: auto;
+  justify-content: flex-end;
+}
+
+.page.de.connection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin-top: 20px;
+}
+
+.titreFormulaire {
+  margin-bottom: 20px;
+}
+
+input{
+  width: 300px;
+}
+
+input#contact_email {
+  margin: 8px;
+}
+
+input#contact_password {
+  margin: 8px;
+}
+
+button#contact_Identification {
+  background-color: $secondary;
+  color: white;
+  width: 300px;
+  padding: 14px;
+  border-radius: 10px;
+  margin: 20px 8px 8px;
+}
+
+button{
+  display: flex;
+  justify-content: center;
+}
+
+.zoom{
+  margin: 50px;
+}
+
+.zoomLink{
+  color : $secondary;
+  text-decoration:none;
+}
+
+.size.box.zoom{
+  width: 80%;
+}
+
+//derniere modif
+.media{
+  width: 80%;
+}
+
+.margeLi{
+  margin-top: 20px;
+}
+
+img.align-self-start.mr-3 {
+  width: 10%;
 }
 
 @import "~bootstrap/scss/bootstrap";

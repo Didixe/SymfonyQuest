@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block bodyClass %}class="index-page"{% endblock %}
+
+{% block body %}
+<div class="page de connection">
+{#    <div class="form">#}
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+{#                    Vous êtes connecté(e) comme : {{ app.user.userIdentifier }} <a class="zoomLink" href="{{ path('app_logout') }}">Me déconnecter</a>#}
+                <h2 class="h2 mb-3 font-weight-normal"> Bienvenue {{ app.user.Firstname }} </h2>
+            </div>
+        {% endif %}
+            <h1 class="h1 mb-3 font-weight-normal">S'identifier</h1>
+
+        <form method="post">
+{#            <label for="inputEmail">Email</label>#}
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mt-2" autocomplete="email" required autofocus placeholder="E-mail">
+{#            <label for="inputPassword">Mot de passe</label>#}
+            <input type="password" name="password" id="inputPassword" class="form-control mt-2" autocomplete="current-password" required placeholder="Mot de passe">
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+            <div class="d-flex justify-content-center">
+            <button class="btn btn-lg btn-secondary mt-3 text-white fs-4 fw-medium" type="submit">
+                Se connecter
+            </button>
+            </div>
+        </form>
+            <p class="mt-3"> Première visite sur Wild-Série ? <a class="zoomLink" href="{{ path('app_register') }}">Inscrivez-vous</a></p>
+            <a class="zoomLink fw-medium fs-5" href="{{ path('app_logout') }}">Me déconnecter</a>
+{#    </div>#}
+</div>
+{% endblock %}

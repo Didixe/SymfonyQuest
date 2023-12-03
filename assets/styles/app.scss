@@ -102,4 +102,39 @@ img.align-self-start.mr-3 {
   width: 10%;
 }
 
+input#inputEmail,
+input#inputPassword{
+  color : $primary;
+}
+
+//input#registration_form_lastname,
+//input#registration_form_firstname,
+//input#registration_form_email,
+//input#registration_form_plainPassword {
+//  border-radius: 5px;
+//  margin-top: 2px;
+//  width: 100%;
+//  color : $primary;
+//}
+
+input#registration_form_RGPDConsent {
+  margin-left: 8px;
+}
+
+.RGPD{
+  width: 100%;
+}
+
+form {
+  width: 17.2%;
+}
+
+h2.h3.mb-3.font-weight-normal {
+  text-align: center;
+}
+
+button.btn.btn-lg.btn-secondary.mt-3 {
+  width: 100%;
+}
+
 @import "~bootstrap/scss/bootstrap";

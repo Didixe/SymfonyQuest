@@ -15,7 +15,8 @@
 {% block bodyClass %}class="index-page"{% endblock %}
 
 {% block body %}
-<h1>{{ message }}</h1>
+
+    {% include 'security/login.html.twig' %}
 
 {#<img src="{{ asset('build/images/fond.jpg') }}" alt="fond">#}
 {# <img src="{{ asset('build/images/subdir/fond.jpg') }}" alt="fond"> #}

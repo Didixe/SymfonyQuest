@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie {% endblock %}
+
+{% block body %}
+    <div class="page de connection">
+        <h1 class="h1 mb-5 font-weight-normal">Ajouter une nouvelle catégorie</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-lg btn-secondary mt-3 text-white " type="submit">Ajouter</button>
+        {{ form_end(form) }}
+
+    <a class="mt-3" href="{{ path('category_index') }}">
+        Retour à la liste des catégories
+    </a>
+    </div>
+{% endblock %}

@@ -119,7 +119,6 @@ class Program
                 $season->setProgram(null);
             }
         }
-
         return $this;
     }
 }

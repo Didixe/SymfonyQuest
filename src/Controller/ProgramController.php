@@ -2,7 +2,10 @@
 // src/Controller/ProgramController.php
 namespace App\Controller;
 
+use App\Form\ProgramType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
@@ -10,6 +13,7 @@ use App\Repository\SeasonRepository;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
+
 
 #[Route('/program', name: 'program_')]
 Class ProgramController extends AbstractController
@@ -24,6 +28,28 @@ Class ProgramController extends AbstractController
             'program/index.html.twig',
             ['programs' => $programs]
         );
+    }
+
+    #[Route('/new', name: 'new')]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $program = new Program();
+
+        // Create the form, linked with $category
+        $form = $this->createForm(ProgramType::class, $program);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($program);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('/{id}', name: 'show')]
@@ -78,4 +104,5 @@ Class ProgramController extends AbstractController
             'episode' => $episode,
         ]);
     }
+
 }

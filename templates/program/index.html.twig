@@ -20,9 +20,12 @@
         {% else %}
             Aucune série trouvée.
         {% endfor %}
+        <a class="zoomLink fs-5" href="{{ path('program_new') }}"> +  </a>
 
-        <a href="{{ path('app_index') }}">
-            Retour à l'accueil
-        </a>
+        <div class="margeLi">
+            <a href="{{ path('app_index') }}">
+                Retour à l'accueil
+            </a>
+        </div>
     </div>
 {% endblock %}

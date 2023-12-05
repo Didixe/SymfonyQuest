@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Episode;
 use App\Form\EpisodeType;
 use App\Repository\EpisodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Program;
+use App\Entity\Season;
+use App\Entity\Episode;
 
 #[Route('/episode')]
 class EpisodeController extends AbstractController
@@ -33,6 +35,8 @@ class EpisodeController extends AbstractController
             $entityManager->persist($episode);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le nouvel épisode a été créé');
+
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -50,6 +54,7 @@ class EpisodeController extends AbstractController
         ]);
     }
 
+    #[Route('/{program}/season/{season}/episode/{episode}', name: 'episode_show')]
     #[Route('/{id}/edit', name: 'app_episode_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Episode $episode, EntityManagerInterface $entityManager): Response
     {
@@ -58,6 +63,8 @@ class EpisodeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+
+            $this->addFlash('success', 'L\'épisode a été modifié');
 
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -75,6 +82,8 @@ class EpisodeController extends AbstractController
             $entityManager->remove($episode);
             $entityManager->flush();
         }
+
+        $this->addFlash('danger', 'L\'épisode a été supprimé');
 
         return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
     }

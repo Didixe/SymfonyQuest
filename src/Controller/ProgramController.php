@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Form\ProgramType;
+use App\Form\SeasonType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,8 +32,8 @@ Class ProgramController extends AbstractController
         );
     }
 
-    #[Route('/new', name: 'new')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ProgramRepository $programRepository, EntityManagerInterface $entityManager): Response
     {
         $program = new Program();
 
@@ -44,50 +46,62 @@ Class ProgramController extends AbstractController
             $entityManager->persist($program);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La nouvelle série a été créé');
+
             return $this->redirectToRoute('program_index');
         }
 
         return $this->render('program/new.html.twig', [
-            'form' => $form->createView(),
+            'program' => $program,
+            'form' => $form,
         ]);
     }
 
+    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La série a été modifié');
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/new.html.twig', [
+            'program' => $program,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($program);
+            $entityManager->flush();
+        }
+
+        $this->addFlash('danger', 'La série a été supprimé');
+
+        return $this->redirectToRoute('program_index' , [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}', name: 'show')]
-//    public function show(int $id, ProgramRepository $programRepository):Response
     public function show(Program $program):Response
     {
-//        $program = $programRepository->findOneBy(['id' => $id]);
-//        // same as $program = $programRepository->find($id);
-//
-//        if (!$program) {
-//            throw $this->createNotFoundException(
-//                'No program with id : '.$id.' found in program\'s table.'
-//            );
-//        }
+
         return $this->render('program/show.html.twig', [
             'program' => $program,
         ]);
     }
 
     #[Route('/{program}/season/{season}', name: 'season_show')]
-//    public function showSeason(int $programId, int $seasonId, ProgramRepository $programRepository, SeasonRepository $seasonRepository): Response
     public function showSeason( Program $program, Season $season): Response
     {
-//        $program = $programRepository->findOneBy(['id' => $programId]);
-//
-//        if (!$program) {
-//            throw $this->createNotFoundException(
-//                'No program with id : ' . $programId . ' found in program\'s table.'
-//            );
-//        }
-
-//        $season = $seasonRepository->findOneBy(['id' => $seasonId, 'program' => $program]);
-
-//        if (!$season) {
-//            throw $this->createNotFoundException(
-//                'No Season not found for the given program.'
-//            );
-//        }
 
         return $this->render('program/season_show.html.twig', [
             'program' => $program,
@@ -104,5 +118,4 @@ Class ProgramController extends AbstractController
             'episode' => $episode,
         ]);
     }
-
 }

@@ -9,6 +9,7 @@
                 <h1 class="mt-0"> <a class="zoomLink" href="{{ path('program_season_show', {'program': program.id, 'season': season.id}) }}">Episode {{ episode.number }} </a>  / Saison {{ season.number }}  de {{ program.title }}</h1>
                 <p>{{ episode.title }}</p>
                 <p>{{ episode.synopsis }}</p>
+
             </div>
 
             <a href="{{ path('program_season_show', {'program': program.id, 'season': season.id}) }}">

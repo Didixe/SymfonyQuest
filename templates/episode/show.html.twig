@@ -3,35 +3,35 @@
 {% block title %}Episode{% endblock %}
 
 {% block body %}
-<div class="page zoom mx-auto" style="max-width: 50%;">
-    <h1 class="mb-3">Episode</h1>
+    <div class="page zoom mx-auto" style="max-width: 50%;">
+        <h1 class="mb-3">Episode</h1>
 
-    <table class="table form-control mt-3 mx-auto">
-        <tbody>
-            <tr>
-                <th>Episode</th>
-                <td>{{ episode.season.program.title }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ episode.title }}</td>
-            </tr>
-            <tr>
-                <th>N°</th>
-                <td>{{ episode.number }}</td>
-            </tr>
-            <tr>
-                <th>Synopsis</th>
-                <td>{{ episode.synopsis }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table form-control mt-3 mx-auto">
+            <tbody>
+                <tr>
+                    <th>Episode</th>
+                    <td>{{ episode.season.program.title }}</td>
+                </tr>
+                <tr>
+                    <th>Titre</th>
+                    <td>{{ episode.title }}</td>
+                </tr>
+                <tr>
+                    <th>Episode n°</th>
+                    <td>{{ episode.number }}</td>
+                </tr>
+                <tr>
+                    <th>Synopsis</th>
+                    <td>{{ episode.synopsis }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    {{ include('episode/_delete_form.html.twig') }}
+        {{ include('episode/_delete_form.html.twig') }}
 
-    <a href="{{ path('app_episode_index') }}">retour à la liste</a>
-    <br>
-    <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">edit</a>
+        <a href="{{ path('app_episode_index') }}">retour à la liste</a>
+        <br>
+        <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">edit</a>
 
-</div>
+    </div>
 {% endblock %}

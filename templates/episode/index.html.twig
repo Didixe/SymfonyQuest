@@ -20,23 +20,23 @@
             </thead>
             <tbody>
             <div class="form">
-            {% for episode in episodes %}
-                <tr>
-                    <td>{{ episode.season.program.title }}</td>
-                    <td>{{ episode.title }}</td>
-                    <td>{{ episode.number }}</td>
-                    <td>{{ episode.synopsis }}</td>
-                    <td>
-                        <a href="{{ path('app_episode_show', {'id': episode.id}) }}">voir</a>
-                        <br>
-                        <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">modifier</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">no records found</td>
-                </tr>
-            {% endfor %}
+                {% for episode in episodes %}
+                    <tr>
+                        <td>{{ episode.season.program.title }} - saison{{ episode.season.number }}</td>
+                        <td>{{ episode.title }}</td>
+                        <td>{{ episode.number }}</td>
+                        <td>{{ episode.synopsis }}</td>
+                        <td>
+                            <a href="{{ path('app_episode_show', {'id': episode.id}) }}">voir</a>
+                            <br>
+                            <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
+                {% endfor %}
             </div>
             </tbody>
             <a href="{{ path('app_episode_new') }}">+ nouvelle épisode</a>

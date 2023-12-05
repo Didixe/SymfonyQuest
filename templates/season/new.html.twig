@@ -3,10 +3,11 @@
 {% block title %}New Season{% endblock %}
 
 {% block body %}
-<div class="page zoom">
+<div class="page zoom mx-auto" style="max-width: 50%;">
     <h1>Create new Season</h1>
 
     {{ include('season/_form.html.twig') }}
+
 
     <a href="{{ path('app_season_index') }}">back to list</a>
 </div>

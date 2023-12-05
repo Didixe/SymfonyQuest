@@ -5,41 +5,43 @@
 {% block bodyClass %}class="other-pages"{% endblock %}
 
 {% block body %}
-<div class="page zoom">
-    <h1>Season index</h1>
+    <div class="page zoom mx-auto" style="max-width: 50%;">
+        <h1 class="text-center">Saison index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Série</th>
-                <th>Episode</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        <div class="form">
-        {% for season in seasons %}
-            <tr>
-                <td>{{ season.program.title }}</td>
-                <td>{{ season.number }}</td>
-                <td>{{ season.year }}</td>
-                <td>{{ season.description }}</td>
-                <td>
-                    <a href="{{ path('app_season_show', {'id': season.id}) }}">voir</a>
-                    <a href="{{ path('app_season_edit', {'id': season.id}) }}">modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </div>
-        </tbody>
-    </table>
+        <table class="table form-control mt-3 mx-auto" >
+            <thead>
+                <tr>
+                    <th>Série</th>
+                    <th>Saison</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <div class="form">
+                {% for season in seasons %}
+                    <tr>
+                        <td>{{ season.program.title }}</td>
+                        <td>{{ season.number }}</td>
+                        <td>{{ season.year }}</td>
+                        <td style="max-width: 500px;">{{ season.description }}</td>
+                        <td>
+                            <a href="{{ path('app_season_show', {'id': season.id}) }}">voir</a>
+                            <br>
+                            <a href="{{ path('app_season_edit', {'id': season.id}) }}">modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
+                {% endfor %}
+            </div>
+            </tbody>
+            <a href="{{ path('app_season_new') }}">+ nouvelle saison</a>
+        </table>
 
-    <a href="{{ path('app_season_new') }}">Create new</a>
-</div>
+        <a href="{{ path('app_season_new') }}">+ nouvelle saison</a>
+    </div>
 {% endblock %}

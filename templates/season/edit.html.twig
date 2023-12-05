@@ -3,13 +3,15 @@
 {% block title %}Edit Season{% endblock %}
 
 {% block body %}
-<div class="page zoom">
-    <h1>Edit Season</h1>
+    <div class="page de connection">
 
-    {{ include('season/_form.html.twig', {'button_label': 'Modifier'}) }}
+            <h1 class="mb-3">Edit Season</h1>
 
-    <a class="zoomLink" href="{{ path('app_season_index') }}">retour à la liste</a>
+            {{ include('season/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    {{ include('season/_delete_form.html.twig') }}
-</div>
+            {{ include('season/_delete_form.html.twig') }}
+
+            <a class="mt-3" href="{{ path('app_season_index') }}">retour à la liste</a>
+    </div>
+
 {% endblock %}

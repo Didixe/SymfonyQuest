@@ -3,34 +3,36 @@
 {% block title %}Season{% endblock %}
 
 {% block body %}
-<div class="page zoom">
-    <h1>Season</h1>
+    <div class="page zoom mx-auto" style="max-width: 50%;">
+        <h1 class="mb-3">Saison</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ season.id }}</td>
-            </tr>
-            <tr>
-                <th>Number</th>
-                <td>{{ season.number }}</td>
-            </tr>
-            <tr>
-                <th>Year</th>
-                <td>{{ season.year }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ season.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table form-control mt-3 mx-auto">
+            <tbody>
+                <tr>
+                    <th>Série</th>
+                    <td>{{ season.program.title }}</td>
+                </tr>
+                <tr>
+                    <th>Saison</th>
+                    <td>{{ season.number }}</td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td>{{ season.year }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ season.description }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_season_index') }}">back to list</a>
+        {{ include('season/_delete_form.html.twig') }}
 
-    <a href="{{ path('app_season_edit', {'id': season.id}) }}">edit</a>
+        <a href="{{ path('app_season_index') }}">retour à la liste</a>
+{#        <a href="{{ path('app_season_index') }}">back to list</a>#}
+        <br>
+        <a href="{{ path('app_season_edit', {'id': season.id}) }}">edit</a>
 
-    {{ include('season/_delete_form.html.twig') }}
-</div>
+    </div>
 {% endblock %}

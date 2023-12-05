@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Episode;
 use App\Entity\Season;
+
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -20,10 +22,21 @@ class EpisodeType extends AbstractType
                 'placeholder' => 'Titre',
                 'class' => 'form-control mb-2 text-primary'
                 ],
-                'label' => false,
+
             ])
-            ->add('number')
-            ->add('synopsis')
+            ->add('number', IntegerType::class, [
+                'attr' => [
+                    'placeholder' => 'N°',
+                    'class' => 'form-control mb-2 text-primary'
+                ],
+            ])
+            ->add('synopsis', TextType::class, [
+                'attr' => [
+                    'placeholder' => 'synopsis',
+                    'class' => 'form-control mb-2 text-primary'
+                ],
+
+            ])
             ->add('season', EntityType::class, [
                 'class' => Season::class,
                 'choice_label' => function ($season) {

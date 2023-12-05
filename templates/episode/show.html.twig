@@ -3,20 +3,21 @@
 {% block title %}Episode{% endblock %}
 
 {% block body %}
-    <h1>Episode</h1>
+<div class="page zoom mx-auto" style="max-width: 50%;">
+    <h1 class="mb-3">Episode</h1>
 
-    <table class="table">
+    <table class="table form-control mt-3 mx-auto">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ episode.id }}</td>
+                <th>Episode</th>
+                <td>{{ episode.season.program.title }}</td>
             </tr>
             <tr>
-                <th>Title</th>
+                <th>Titre</th>
                 <td>{{ episode.title }}</td>
             </tr>
             <tr>
-                <th>Number</th>
+                <th>N°</th>
                 <td>{{ episode.number }}</td>
             </tr>
             <tr>
@@ -26,9 +27,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_episode_index') }}">back to list</a>
+    {{ include('episode/_delete_form.html.twig') }}
 
+    <a href="{{ path('app_episode_index') }}">retour à la liste</a>
+    <br>
     <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">edit</a>
 
-    {{ include('episode/_delete_form.html.twig') }}
+</div>
 {% endblock %}

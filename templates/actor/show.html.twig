@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acteur {{ actor.name }}{% endblock %}
+
+{% block body %}
+    <div class="page zoom">
+        <div class="media">
+            <h1><a class="zoomLink" href="{{ path('app_actor') }}">{{ actor.name }}</a></h1>
+
+            {% if actor.programs is not empty %}
+            <div class="margeLi">
+                <h2>Séries associées :</h2>
+                <ul>
+                    {% for program in actor.programs %}
+                        <li><a class="zoomLink" href="{{ path("program_show", { id: program.id }) }}"> {{ program.title }} </a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p>Aucune série associée à cette acteur.</p>
+                {% endif %}
+            </div>
+
+            <a href="{{ path('category_index') }}">
+                Retour à la liste des catégories
+            </a>
+        </div>
+    </div>
+{% endblock %}

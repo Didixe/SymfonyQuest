@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des acteurs{% endblock %}
+
+{% block body %}
+    <div class="page zoom">
+        <h1>Liste des acteurs</h1>
+                {% for actor in actors %}
+        <div class="margeLi">
+                        <a class="zoomLink" href="{{ path("app_actor_show", { id: actor.id }) }}">{{ actor.name }}</a>
+        </div>
+                {% endfor %}
+    </div>
+{% endblock %}

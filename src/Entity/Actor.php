@@ -56,6 +56,7 @@ class Actor
     {
         if (!$this->programs->contains($program)) {
             $this->programs->add($program);
+//            $program->addActor($this);
         }
 
         return $this;
@@ -64,9 +65,8 @@ class Actor
     public function removeProgram(Program $program): static
     {
         $this->programs->removeElement($program);
+//        $program->removeActor($this);
 
         return $this;
     }
-
-
 }

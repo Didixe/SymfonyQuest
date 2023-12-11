@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\Actor;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
 #[UniqueEntity(fields:"title", message:"Ce titre existe déjà")]
@@ -149,6 +150,7 @@ class Program
     {
         if (!$this->actors->contains($actor)) {
             $this->actors->add($actor);
+//            $this->actors[] = $actor;
             $actor->addProgram($this);
         }
 

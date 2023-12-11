@@ -10,6 +10,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Category;
 use Doctrine\ORM\Mapping\Entity;
+use App\Entity\Actor;
+
 
 
 class ProgramType extends AbstractType
@@ -49,6 +51,13 @@ class ProgramType extends AbstractType
                 ],
                 'label' => false,
             ])
+            ->add('actors', EntityType::class, [
+                'class' => Actor::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+                'by_reference' => false,
+            ]);
         ;
     }
 

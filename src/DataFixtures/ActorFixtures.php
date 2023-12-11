@@ -20,25 +20,10 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
             $actor = New Actor();
             $actor->setName($faker->name());
 
-//            for ($actorProgram = 0; $actorProgram <3; $actorProgram++) {
-//                $randomProgramID = mt_rand(0, 4);
-//
-//                $actor->addProgram($this->getReference('program_' . $randomProgramID));
-//                $actorReference = 'program_' . $randomProgramID . '_actor_' . $actorID . '_' . $actorProgram;
-//                $this->addReference($actorReference, $actor);
-//            }
-            $programReferences = [];
-            for ($actorProgram = 0; $actorProgram < 5; $actorProgram++) {
-                $programReferences[] = 'program_' . $actorProgram;
-            }
+            for ($actorProgram = 0; $actorProgram <3; $actorProgram++) {
 
-            $randomProgramKeys = array_rand($programReferences, 3);
-
-            foreach ($randomProgramKeys as $key) {
-                $actor->addProgram($this->getReference($programReferences[$key]));
-
-                $actorReference = $programReferences[$key] . '_actor_' . $actorID;
-                $this->addReference($actorReference, $actor);
+                $program = $this->getReference('program_' . rand(0, 4));
+                $actor->addProgram($program);
             }
                 $manager->persist($actor);
         }

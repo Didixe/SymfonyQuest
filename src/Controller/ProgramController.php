@@ -2,6 +2,7 @@
 // src/Controller/ProgramController.php
 namespace App\Controller;
 
+use App\Entity\Actor;
 use App\Form\ProgramType;
 use App\Form\SeasonType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,7 +54,7 @@ Class ProgramController extends AbstractController
 
         return $this->render('program/new.html.twig', [
             'program' => $program,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

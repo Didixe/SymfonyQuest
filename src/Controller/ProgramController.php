@@ -7,6 +7,7 @@ use App\Form\ProgramType;
 use App\Form\SeasonType;
 use App\Service\ProgramDuration;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,7 +73,7 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/season/{season}', name: 'season_show')]
+    #[Route('/{slug}/season/{number}', name: 'season_show')]
     public function showSeason( Program $program, Season $season, SluggerInterface $slugger): Response
     {
         $slug = $slugger->slug($program->getTitle());
@@ -83,12 +84,15 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/season/{season}/episode/{episode}', name: 'episode_show')]
-//    #[Route('/{slug}/season/{season}/episode/{slugEpisode}', name: 'episode_show')]
-    public function showEpisode( Program $program, Season $season, Episode $episode, SluggerInterface $slugger): Response
+//    #[Route('/{slug}/season/{number}/episode/{episode}', name: 'episode_show')]
+    #[Route('/{slug}/season/{number}/episode/{slugEpisode}', name: 'episode_show')]
+    public function showEpisode(#[MapEntity(mapping : ['slug' => 'slug'])] Program $program,
+                                #[MapEntity(mapping : ['number' => 'number'])] Season $season,
+                                #[MapEntity(mapping : ['slugEpisode' => 'slug'])] Episode $episode,
+    ): Response
     {
-        $slug = $slugger->slug($program->getTitle());
-        $program->setSlug($slug);
+      //  $slug = $slugger->slug($program->getTitle());
+       // $program->setSlug($slug);
 
 //        $slugEpisode = $slugger->slug($episode->getTitle());
 //        $episode->setSlug($slugEpisode);

@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/season')]
 class SeasonController extends AbstractController
@@ -53,7 +54,7 @@ class SeasonController extends AbstractController
         ]);
     }
 
-    #[Route('/{program}/season/{season}', name: 'season_show')]
+    #[Route('/{id}/season/{season}', name: 'season_show')]
     #[Route('/{id}/edit', name: 'app_season_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Season $season, EntityManagerInterface $entityManager): Response
     {

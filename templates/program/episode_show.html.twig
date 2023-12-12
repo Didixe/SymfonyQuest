@@ -6,13 +6,13 @@
     <div class="page zoom">
         <div class="media">
             <div class="media-body">
-                <h1 class="mt-0"> <a class="zoomLink" href="{{ path('program_season_show', {'slug': program.slug, 'season': season.id}) }}">Episode {{ episode.number }} </a>  / Saison {{ season.number }}  de {{ program.title }}</h1>
+                <h1 class="mt-0"> <a class="zoomLink" href="{{ path('program_season_show', {'slug': program.slug, 'number': season.number}) }}">Episode {{ episode.number }} </a>  / Saison {{ season.number }}  de {{ program.title }}</h1>
                 <p>{{ episode.title }}</p>
                 <p>{{ episode.synopsis }}</p>
 
             </div>
 
-            <a href="{{ path('program_season_show', {'slug': program.slug, 'season': season.id}) }}">
+            <a href="{{ path('program_season_show', {'slug': program.slug, 'number': season.number}) }}">
                 Retour à la page de la série
             </a>
         </div>

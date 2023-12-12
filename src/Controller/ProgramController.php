@@ -1,10 +1,11 @@
 <?php
-// src/Controller/ProgramController.php
+
 namespace App\Controller;
 
 use App\Entity\Actor;
 use App\Form\ProgramType;
 use App\Form\SeasonType;
+use App\Service\ProgramDuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -16,6 +17,7 @@ use App\Repository\SeasonRepository;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/program', name: 'program_')]
@@ -34,16 +36,17 @@ Class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProgramRepository $programRepository, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, ProgramRepository $programRepository, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $program = new Program();
 
-        // Create the form, linked with $category
         $form = $this->createForm(ProgramType::class, $program);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             $entityManager->persist($program);
             $entityManager->flush();
 
@@ -57,14 +60,55 @@ Class ProgramController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/{slug}', name: 'show')]
+    public function show(Program $program, ProgramDuration $programDuration, SluggerInterface $slugger):Response
+    {
+        $slug = $slugger->slug($program->getTitle());
+        $program->setSlug($slug);
 
-    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
+        return $this->render('program/show.html.twig', [
+            'program' => $program,
+            'programDuration' => $programDuration->calculate($program),
+        ]);
+    }
+
+    #[Route('/{slug}/season/{season}', name: 'season_show')]
+    public function showSeason( Program $program, Season $season, SluggerInterface $slugger): Response
+    {
+        $slug = $slugger->slug($program->getTitle());
+        $program->setSlug($slug);
+        return $this->render('program/season_show.html.twig', [
+            'program' => $program,
+            'season' => $season,
+        ]);
+    }
+
+    #[Route('/{slug}/season/{season}/episode/{episode}', name: 'episode_show')]
+//    #[Route('/{slug}/season/{season}/episode/{slugEpisode}', name: 'episode_show')]
+    public function showEpisode( Program $program, Season $season, Episode $episode, SluggerInterface $slugger): Response
+    {
+        $slug = $slugger->slug($program->getTitle());
+        $program->setSlug($slug);
+
+//        $slugEpisode = $slugger->slug($episode->getTitle());
+//        $episode->setSlug($slugEpisode);
+
+        return $this->render('program/episode_show.html.twig', [
+            'program' => $program,
+            'season' => $season,
+            'episode' => $episode,
+        ]);
+    }
+
+    #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             $entityManager->flush();
 
             $this->addFlash('success', 'La série a été modifié');
@@ -78,10 +122,12 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
+    #[Route('/delete/{slug}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             $entityManager->remove($program);
             $entityManager->flush();
         }
@@ -91,32 +137,4 @@ Class ProgramController extends AbstractController
         return $this->redirectToRoute('program_index' , [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}', name: 'show')]
-    public function show(Program $program):Response
-    {
-
-        return $this->render('program/show.html.twig', [
-            'program' => $program,
-        ]);
-    }
-
-    #[Route('/{program}/season/{season}', name: 'season_show')]
-    public function showSeason( Program $program, Season $season): Response
-    {
-
-        return $this->render('program/season_show.html.twig', [
-            'program' => $program,
-            'season' => $season,
-        ]);
-    }
-
-    #[Route('/{program}/season/{season}/episode/{episode}', name: 'episode_show')]
-    public function showEpisode( Program $program, Season $season, Episode $episode): Response
-    {
-        return $this->render('program/episode_show.html.twig', [
-            'program' => $program,
-            'season' => $season,
-            'episode' => $episode,
-        ]);
-    }
 }

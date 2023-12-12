@@ -12,7 +12,7 @@
                 <h2>Séries associées :</h2>
                 <ul>
                     {% for program in programs %}
-                        <li><a class="zoomLink" href="{{ path("program_show", { id: program.id }) }}"> {{ program.title }} </a></li>
+                        <li><a class="zoomLink" href="{{ path("program_show", { slug: program.slug }) }}"> {{ program.title }} </a></li>
                         <p>{{ program.synopsis }}</p>
                         {#                    <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>#}
                     {% endfor %}

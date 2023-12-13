@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
@@ -19,6 +21,7 @@ use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
 use Symfony\Component\String\Slugger\SluggerInterface;
+//use Symfony\Component\Validator\Constraints\Email;
 
 
 #[Route('/program', name: 'program_')]
@@ -37,7 +40,7 @@ Class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProgramRepository $programRepository, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(Request $request, ProgramRepository $programRepository, EntityManagerInterface $entityManager, SluggerInterface $slugger, MailerInterface $mailer): Response
     {
         $program = new Program();
 
@@ -52,6 +55,18 @@ Class ProgramController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'La nouvelle série a été créé');
+
+//            $programRepository->save($program, true);
+
+            $email = (new Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to($this->getParameter('mailer_from'))
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('Program/newProgramEmail.html.twig', [
+                    'program' => $program,
+                    ]));
+
+            $mailer->send($email);
 
             return $this->redirectToRoute('program_index');
         }

@@ -37,6 +37,12 @@ class EpisodeType extends AbstractType
                 ],
 
             ])
+            ->add('duration', IntegerType::class, [
+                'attr' => [
+                    'placeholder' => 'durée',
+                    'class' => 'form-control mb-2 text-primary'
+                ],
+            ])
             ->add('season', EntityType::class, [
                 'class' => Season::class,
                 'choice_label' => function ($season) {

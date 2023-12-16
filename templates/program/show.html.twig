@@ -10,7 +10,7 @@
 
                 <p>{{ program.synopsis }}</p>
                 <p>Catégorie : <a class="zoomLink" href="{{ path('category_index') }}">{{ program.category.name }}</a></p>
-                <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+                <img class="align-self-start mr-3" src="{{ vich_uploader_asset(program, 'posterFile')}}" alt="{{ program.title }} poster">
                 <p>durées total de la série : {{ programDuration }}</p>
 
                 {% if program.seasons|length > 0 %}

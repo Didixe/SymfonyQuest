@@ -13,7 +13,7 @@
             {#            <div class="poster">#}
                 <h2><a class="zoomLink" href="{{ path("program_show", { slug: program.slug }) }}">{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</a></h2>
                 <p>{{ program.synopsis }}</p>
-                <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+                <img class="align-self-start mr-3" src="{{ vich_uploader_asset(program, 'posterFile')}}" alt="{{ program.title }} poster">
                 <div>
                     <a href="{{ path('program_edit', { slug: program.slug }) }}" class="btn mt-3 btn-primary">Modifier</a>
 

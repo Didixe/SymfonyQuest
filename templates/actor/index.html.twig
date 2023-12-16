@@ -5,10 +5,15 @@
 {% block body %}
     <div class="page zoom">
         <h1>Liste des acteurs</h1>
-                {% for actor in actors %}
-        <div class="margeLi">
-                        <a class="zoomLink" href="{{ path("app_actor_show", { id: actor.id }) }}">{{ actor.name }}</a>
+            {% for actor in actors %}
+            <div class="margeLi">
+                <a class="zoomLink" href="{{ path("app_actor_show", { id: actor.id }) }}">{{ actor.name }}</a>
+                <br>
+                <img class="align-self-start mr-3" src="{{ vich_uploader_asset(actor, 'pictureFile')}}" alt="{{ actor.name }} picture">
+            </div>
+            {% endfor %}
+        <div>
+        <a class="zoomLink fs-5" href="{{ path('app_actor_new') }}"> + ajouter un acteur  </a>
         </div>
-                {% endfor %}
     </div>
 {% endblock %}

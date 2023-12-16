@@ -11,7 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Category;
 use Doctrine\ORM\Mapping\Entity;
 use App\Entity\Actor;
-
+use Vich\UploaderBundle\Form\Type\VichFileType;
+use function Sodium\add;
 
 
 class ProgramType extends AbstractType
@@ -33,13 +34,13 @@ class ProgramType extends AbstractType
                 ],
                 'label' => false,
             ])
-            ->add('poster', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Affiche',
-                    'class' => 'form-control mb-2 text-primary'
-                ],
-                'label' => false,
-            ])
+//            ->add('poster', TextType::class, [
+//                'attr' => [
+//                    'placeholder' => 'Affiche',
+//                    'class' => 'form-control mb-2 text-primary'
+//                ],
+//                'label' => false,
+//            ])
 //            ->add('category', TextType::class, [
             ->add('category', EntityType::class, [
 //                'class' => Entity::class,
@@ -57,7 +58,12 @@ class ProgramType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'by_reference' => false,
-            ]);
+            ])
+            ->add('posterFile', VichFileType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'download_uri' => true,
+            ])
         ;
     }
 

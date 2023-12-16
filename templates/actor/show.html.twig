@@ -6,13 +6,14 @@
     <div class="page zoom">
         <div class="media">
             <h1><a class="zoomLink" href="{{ path('app_actor') }}">{{ actor.name }}</a></h1>
+            <img class="align-self-start mr-3" src="{{ vich_uploader_asset(actor, 'pictureFile')}}" alt="{{ actor.name }} picture">
 
             {% if actor.programs is not empty %}
             <div class="margeLi">
                 <h2>Séries associées :</h2>
                 <ul>
                     {% for program in actor.programs %}
-                        <li><a class="zoomLink" href="{{ path("program_show", { id: program.id }) }}"> {{ program.title }} </a></li>
+                        <li><a class="zoomLink" href="{{ path("program_show", { slug: program.slug }) }}"> {{ program.title }} </a></li>
                     {% endfor %}
                 </ul>
                 {% else %}

@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Actor;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Form\ProgramType;
 use App\Form\SeasonType;
+use App\Repository\CommentRepository;
 use App\Service\ProgramDuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -20,6 +23,7 @@ use App\Repository\SeasonRepository;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 //use Symfony\Component\Validator\Constraints\Email;
 
@@ -104,6 +108,9 @@ Class ProgramController extends AbstractController
     public function showEpisode(#[MapEntity(mapping : ['slug' => 'slug'])] Program $program,
                                 #[MapEntity(mapping : ['number' => 'number'])] Season $season,
                                 #[MapEntity(mapping : ['slugEpisode' => 'slug'])] Episode $episode,
+                                Request $request,
+                                EntityManagerInterface $entityManager,
+                                CommentRepository $commentRepository,
     ): Response
     {
       //  $slug = $slugger->slug($program->getTitle());
@@ -112,10 +119,41 @@ Class ProgramController extends AbstractController
 //        $slugEpisode = $slugger->slug($episode->getTitle());
 //        $episode->setSlug($slugEpisode);
 
+            $comment = new Comment();
+            $form = $this->createForm(CommentType::class, $comment);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $user = $this->getUser();
+
+                $comment->setEpisode($episode);
+                $comment->setAuthor($user);
+                $comment->setCreatedAt(new \DateTime());
+
+                $entityManager->persist($comment);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('program_episode_show', [
+                    'slug' => $program ->getSlug(),
+//                    'season' => $season->getId(),
+//                    'episode' => $episode->getId()
+                    'number' => $season->getNumber(),
+                    'slugEpisode' => $episode->getSlug(),
+                ]);
+            }
+
+        $commentsSorted =  $commentRepository->findBy(
+            ['episode' => $episode],
+            ['createdAt' => 'ASC']
+        );
+
         return $this->render('program/episode_show.html.twig', [
             'program' => $program,
             'season' => $season,
             'episode' => $episode,
+            'form' => $form,
+            'commentsSorted' => $commentsSorted,
+            'commentRepository' => $commentRepository,
         ]);
     }
 

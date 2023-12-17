@@ -15,8 +15,8 @@
 {% block bodyClass %}class="index-page"{% endblock %}
 
 {% block body %}
-<h1>{{ message }}</h1>
+{#    {% if app.user %}#}
+{#    <h2 class="h2 mb-3 font-weight-normal"> Bienvenue {{ last_username }} </h2>#}
+{#    {% endif %}#}
 
-{#<img src="{{ asset('build/images/fond.jpg') }}" alt="fond">#}
-{# <img src="{{ asset('build/images/subdir/fond.jpg') }}" alt="fond"> #}
 {% endblock %}

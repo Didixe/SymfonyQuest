@@ -6,7 +6,6 @@ use App\Entity\Actor;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\ProgramType;
-use App\Form\SeasonType;
 use App\Repository\CommentRepository;
 use App\Service\ProgramDuration;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,11 +19,13 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
+use App\Entity\User;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 //use Symfony\Component\Validator\Constraints\Email;
 
 
@@ -53,6 +54,7 @@ Class ProgramController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $program->setOwner($this->getUser());
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
             $entityManager->persist($program);
@@ -113,34 +115,39 @@ Class ProgramController extends AbstractController
                                 CommentRepository $commentRepository,
     ): Response
     {
-      //  $slug = $slugger->slug($program->getTitle());
-       // $program->setSlug($slug);
 
-//        $slugEpisode = $slugger->slug($episode->getTitle());
-//        $episode->setSlug($slugEpisode);
+        // Récupérer le commentaire de l'utilisateur pour cet épisode
+        $comment = $commentRepository->findOneBy(['episode' => $episode, 'author' => $this->getUser()]);
 
-            $comment = new Comment();
-            $form = $this->createForm(CommentType::class, $comment);
-            $form->handleRequest($request);
+        // Vérifier si le commentaire existe et si l'utilisateur est le propriétaire
+        if ($comment && $this->getUser() !== $comment->getOwner()) {
+            // Si l'utilisateur n'est pas le propriétaire, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Seul le propriétaire peut modifier son commentaire!');
+        }
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $user = $this->getUser();
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
 
-                $comment->setEpisode($episode);
-                $comment->setAuthor($user);
-                $comment->setCreatedAt(new \DateTime());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
 
-                $entityManager->persist($comment);
-                $entityManager->flush();
+            $comment->setOwner($this->getUser());
+            $comment->setEpisode($episode);
+            $comment->setAuthor($user);
+            $comment->setCreatedAt(new \DateTime());
 
-                return $this->redirectToRoute('program_episode_show', [
-                    'slug' => $program ->getSlug(),
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('program_episode_show', [
+                'slug' => $program ->getSlug(),
 //                    'season' => $season->getId(),
 //                    'episode' => $episode->getId()
-                    'number' => $season->getNumber(),
-                    'slugEpisode' => $episode->getSlug(),
-                ]);
-            }
+                'number' => $season->getNumber(),
+                'slugEpisode' => $episode->getSlug(),
+            ]);
+        }
 
         $commentsSorted =  $commentRepository->findBy(
             ['episode' => $episode],
@@ -160,6 +167,10 @@ Class ProgramController extends AbstractController
     #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        if ($this->getUser() !== $program->getOwner()) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Seul le propriétaire peut modifier la série!');
+        }
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 

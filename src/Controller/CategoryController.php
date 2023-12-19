@@ -11,6 +11,8 @@ use App\Repository\CategoryRepository;
 use App\Form\CategoryType;
 use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Request;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/category', name: 'category_')]
 Class CategoryController extends AbstractController{
@@ -49,6 +51,7 @@ Class CategoryController extends AbstractController{
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'new')]
     public function new(Request $request, EntityManagerInterface $entityManager) : Response
     {

@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Program;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -17,6 +18,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     }
     public function load(ObjectManager $manager): void
     {
+
         $program = new Program();
         $program->setTitle('Arcane');
         $slug = $this->slugger->slug($program->getTitle());
@@ -25,6 +27,9 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setPoster('https://fr.web.img6.acsta.net/r_1920_1080/pictures/21/11/02/11/12/2878509.jpg');
         $program->setSynopsis("Au milieu du conflit entre les villes jumelles de Piltover et Zaun, deux soeurs se battent dans les camps opposés d'une guerre entre technologies magiques et convictions incompatibles.");
         $program->setCategory($this->getReference('category_Animation'));
+
+        $program->setOwner($this->getReference('user_Contributor'));
+
         $manager->persist($program);
         $manager->flush();
         $this->addReference('program_0', $program);
@@ -83,6 +88,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
         return [
             CategoryFixtures::class,
+            UserFixtures::class,
         ];
     }
 }

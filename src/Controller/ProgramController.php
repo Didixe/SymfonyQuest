@@ -142,18 +142,17 @@ Class ProgramController extends AbstractController
         }
 
     // Initialiser la variable $commentToEdit à null
-        $commentToEdit = null;
+//        $commentToEdit = null;
 
     // Vérifier si une requête de edit a été soumise
         if ($request->getMethod() === 'POST' && $commentId = $request->request->get('edit_comment_id')) {
             $commentToEdit = $commentRepository->find($commentId);
-        }
+
 
     // Ajouter une vérification pour éviter une erreur si $commentToEdit n'est pas défini
-        if ($commentToEdit && $this->getUser() !== $commentToEdit->getOwner()) {
-            throw $this->createAccessDeniedException('Seul le propriétaire peut modifier son commentaire!');
-        }
-
+        if (($this->getUser() !== $commentToEdit->getOwner()) && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Seul le propriétaire ou l\'administrateur peut modifier le commentaire!');
+        }}
 
         // Vérifier si une requête de suppression a été soumise
         if ($request->getMethod() === 'POST' && $commentId = $request->request->get('delete_comment_id')) {
@@ -161,7 +160,7 @@ Class ProgramController extends AbstractController
             $commentToDelete = $commentRepository->find($commentId);
 
             // Vérifier si l'utilisateur est autorisé à supprimer le commentaire
-            if ($this->getUser() !== $commentToDelete->getOwner()) {
+            if (($this->getUser() !== $commentToDelete->getOwner()) && !$this->isGranted('ROLE_ADMIN')) {
                 // Si l'utilisateur n'est pas le propriétaire, throws a 403 Access Denied exception
                 throw $this->createAccessDeniedException('Seul le propriétaire peut supprimer son commentaire!');
             }
@@ -196,7 +195,8 @@ Class ProgramController extends AbstractController
     #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        if ($this->getUser() !== $program->getOwner()) {
+
+            if (($this->getUser() !== $program->getOwner()) && (!$this->isGranted('ROLE_ADMIN'))) {
             // If not the owner, throws a 403 Access Denied exception
             throw $this->createAccessDeniedException('Seul le propriétaire peut modifier la série!');
         }

@@ -115,15 +115,9 @@ Class ProgramController extends AbstractController
                                 CommentRepository $commentRepository,
     ): Response
     {
-
         // Récupérer le commentaire de l'utilisateur pour cet épisode
         $comment = $commentRepository->findOneBy(['episode' => $episode, 'author' => $this->getUser()]);
 
-        // Vérifier si le commentaire existe et si l'utilisateur est le propriétaire
-        if ($comment && $this->getUser() !== $comment->getOwner()) {
-            // Si l'utilisateur n'est pas le propriétaire, throws a 403 Access Denied exception
-            throw $this->createAccessDeniedException('Seul le propriétaire peut modifier son commentaire!');
-        }
 
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -142,8 +136,43 @@ Class ProgramController extends AbstractController
 
             return $this->redirectToRoute('program_episode_show', [
                 'slug' => $program ->getSlug(),
-//                    'season' => $season->getId(),
-//                    'episode' => $episode->getId()
+                'number' => $season->getNumber(),
+                'slugEpisode' => $episode->getSlug(),
+            ]);
+        }
+
+    // Initialiser la variable $commentToEdit à null
+        $commentToEdit = null;
+
+    // Vérifier si une requête de edit a été soumise
+        if ($request->getMethod() === 'POST' && $commentId = $request->request->get('edit_comment_id')) {
+            $commentToEdit = $commentRepository->find($commentId);
+        }
+
+    // Ajouter une vérification pour éviter une erreur si $commentToEdit n'est pas défini
+        if ($commentToEdit && $this->getUser() !== $commentToEdit->getOwner()) {
+            throw $this->createAccessDeniedException('Seul le propriétaire peut modifier son commentaire!');
+        }
+
+
+        // Vérifier si une requête de suppression a été soumise
+        if ($request->getMethod() === 'POST' && $commentId = $request->request->get('delete_comment_id')) {
+            // Récupérer le commentaire à supprimer
+            $commentToDelete = $commentRepository->find($commentId);
+
+            // Vérifier si l'utilisateur est autorisé à supprimer le commentaire
+            if ($this->getUser() !== $commentToDelete->getOwner()) {
+                // Si l'utilisateur n'est pas le propriétaire, throws a 403 Access Denied exception
+                throw $this->createAccessDeniedException('Seul le propriétaire peut supprimer son commentaire!');
+            }
+
+            // Supprimer le commentaire
+            $entityManager->remove($commentToDelete);
+            $entityManager->flush();
+
+            // Rediriger vers la page de l'épisode après la suppression du commentaire
+            return $this->redirectToRoute('program_episode_show', [
+                'slug' => $program->getSlug(),
                 'number' => $season->getNumber(),
                 'slugEpisode' => $episode->getSlug(),
             ]);

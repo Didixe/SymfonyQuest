@@ -37,6 +37,13 @@ body {
   justify-content: flex-end;
 }
 
+.centered.page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .page.de.connection {
   display: flex;
   flex-direction: column;
@@ -44,6 +51,14 @@ body {
   justify-content: center;
   min-height: 100vh;
   margin-top: 20px;
+}
+
+.titre{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
 }
 
 .titreFormulaire {
@@ -102,6 +117,31 @@ img.align-self-start.mr-3 {
   width: 10%;
 }
 
+input#inputEmail,
+input#inputPassword{
+  color : $primary;
+}
+
+input#registration_form_RGPDConsent {
+  margin-left: 8px;
+}
+
+.RGPD{
+  width: 100%;
+}
+
+form {
+  width: 17.2%;
+}
+
+h2.h3.mb-3.font-weight-normal {
+  text-align: center;
+}
+
+button.btn.btn-lg.btn-secondary.mt-3 {
+  width: 100%;
+}
+
 .alert.alert-success {
   --bs-alert-color: #127127;; /* Couleur du texte pour le succès */
   background-color: #00ffa9;
@@ -119,11 +159,40 @@ img.align-self-start.mr-3 {
   flex-direction: column;
 }
 
+.homeOneUnderTheOther{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .sideBySide{
   display: flex;
   flex-direction: row;
-  //align-items: center;
   align-items: flex-start
+}
+
+.homesideBySide{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start
+}
+
+.sizePicture{
+  width: 150px;
+  height: 200px;
+}
+
+//.grid{
+//  display: grid;
+//  grid-template-columns: repeat(5, 1fr);
+//  grid-template-rows: repeat(2, 1fr);
+//  grid-column-gap: 5px;
+//  grid-row-gap: 1px;
+//}
+
+.form-control{
+  color: $primary;
 }
 
 @import "~bootstrap/scss/bootstrap";

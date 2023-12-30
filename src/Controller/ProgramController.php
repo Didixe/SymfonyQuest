@@ -36,6 +36,17 @@ Class ProgramController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(ProgramRepository $programRepository): Response
     {
+
+//        if ($this->getUser()) {
+//            // Récupère les dernières séries en utilisant la méthode du repository
+//            $latestPrograms = $programRepository->findLatestPrograms();
+//
+//            // Passe les séries à la vue de la page d'accueil
+//            return $this->render('index.html.twig', [
+//                'latestPrograms' => $latestPrograms,
+//            ]);
+//        }
+
         $programs = $programRepository->findAll();
 
         return $this->render(

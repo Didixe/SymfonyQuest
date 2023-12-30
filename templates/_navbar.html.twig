@@ -18,10 +18,17 @@
         <li class="nav-item">
 {#          <a class="nav-link" href="{{ path('app_login') }}">Connection</a>#}
           {% if app.user %}
-            {{ app.user.email }}
+{#            {{ app.user.email }}#}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('my-profile') }}">Mon compte</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ path('app_logout') }}"> Se déconnecter</a>
+        </li>
           {% else %}
+        <li class="nav-item">
             <a class="nav-link" href="{{ path('app_login') }}"> Se connecter</a>
+        </li>
           {% endif %}
         </li>
       </ul>

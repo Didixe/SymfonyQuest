@@ -29,16 +29,6 @@ class ActorType extends AbstractType
                 'allow_delete' => true,
                 'download_uri' => true,
             ])
-//            ->add('updatedAt')
-//            ->add('programs', EntityType::class, [
-//                'class' => Program::class,
-//                'choice_label' => 'name',
-//                'attr' => [
-//                    'placeholder' => 'Program',
-//                    'class' => 'form-control mb-2 text-primary'
-//                ],
-//                'label' => false,
-//            ])
         ;
     }
 

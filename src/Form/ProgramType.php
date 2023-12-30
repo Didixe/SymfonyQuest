@@ -34,16 +34,8 @@ class ProgramType extends AbstractType
                 ],
                 'label' => false,
             ])
-//            ->add('poster', TextType::class, [
-//                'attr' => [
-//                    'placeholder' => 'Affiche',
-//                    'class' => 'form-control mb-2 text-primary'
-//                ],
-//                'label' => false,
-//            ])
-//            ->add('category', TextType::class, [
+
             ->add('category', EntityType::class, [
-//                'class' => Entity::class,
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'attr' => [

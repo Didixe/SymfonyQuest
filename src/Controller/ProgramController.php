@@ -6,6 +6,7 @@ use App\Entity\Actor;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\ProgramType;
+use App\Form\SearchProgramType;
 use App\Repository\CommentRepository;
 use App\Service\ProgramDuration;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,24 +35,26 @@ Class ProgramController extends AbstractController
 {
 
     #[Route('/', name: 'index')]
-    public function index(ProgramRepository $programRepository): Response
+    public function index(ProgramRepository $programRepository, Request $request): Response
     {
 
-//        if ($this->getUser()) {
-//            // Récupère les dernières séries en utilisant la méthode du repository
-//            $latestPrograms = $programRepository->findLatestPrograms();
-//
-//            // Passe les séries à la vue de la page d'accueil
-//            return $this->render('index.html.twig', [
-//                'latestPrograms' => $latestPrograms,
-//            ]);
-//        }
+        $form = $this->createForm(SearchProgramType::class);
+        $form->handleRequest($request);
 
-        $programs = $programRepository->findAll();
+        if ($form->isSubmitted() && $form->isValid()){
+            $search = $form->getData()['search'];
+            $programs = $programRepository->findLikeName($search);
+        }else {
+            $programs = $programRepository->findAll();
+        }
+
+//        $programs = $programRepository->findAll();
 
         return $this->render(
-            'program/index.html.twig',
-            ['programs' => $programs]
+            'program/index.html.twig', [
+                'programs' => $programs,
+                'form' => $form
+            ]
         );
     }
 

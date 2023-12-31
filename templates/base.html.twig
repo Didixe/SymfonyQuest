@@ -13,7 +13,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body {% block bodyClass %}{% endblock %}>
+    <body {{ stimulus_controller('theme') }} {{ stimulus_target('theme', 'body') }} {% block bodyClass %}{% endblock %}>
         {% block header %}{% include '_navbar.html.twig' %}{% endblock %}
 
         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">

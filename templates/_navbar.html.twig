@@ -31,6 +31,8 @@
         </li>
           {% endif %}
         </li>
+{#        <button data-action="theme#toggleDarkMode">Toggle dark mode</button>#}
+        <button {{ stimulus_action('theme', 'toggleDarkMode') }}>Toggle dark mode</button>
       </ul>
     </div>
   </div>

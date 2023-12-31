@@ -183,16 +183,14 @@ button.btn.btn-lg.btn-secondary.mt-3 {
   height: 200px;
 }
 
-//.grid{
-//  display: grid;
-//  grid-template-columns: repeat(5, 1fr);
-//  grid-template-rows: repeat(2, 1fr);
-//  grid-column-gap: 5px;
-//  grid-row-gap: 1px;
-//}
-
 .form-control{
   color: $primary;
+}
+
+ul.dropdown-menu.show {
+  background-color: $secondary;
+  //--bs-dropdown-bg: $primary;
+  --bs-dropdown-link-hover-bg: #826CFD;
 }
 
 @import "~bootstrap/scss/bootstrap";

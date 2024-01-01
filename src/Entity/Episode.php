@@ -37,6 +37,9 @@ class Episode
     #[ORM\OneToMany(mappedBy: 'episode', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -145,6 +148,18 @@ class Episode
                 $comment->setEpisode(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

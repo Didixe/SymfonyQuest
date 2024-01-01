@@ -1,0 +1,22 @@
+<div{{ attributes }}>
+
+        <p>Nouvauté :</p>
+    {% for episode in this.LastEpisode %}
+
+        <aside>
+            <p> Episode :
+                {{ episode.number }} - {{ episode.title }}
+{#                {{ episode['episode']['number'] }} - {{ episode['episode']['title'] }}#}
+            /
+            Saison :
+                {{ episode.season.number }}
+{#                {{ episode['season']['number'] }}#}
+            /
+            Série :
+                {{ episode.season.program.title }}
+{#                {{ episode['program']['title'] }}#}
+            </p>
+
+        </aside>
+    {% endfor %}
+</div>
